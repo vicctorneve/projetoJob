@@ -10,6 +10,7 @@ let configurations;
 let count = 7;
 let data = [];
 
+// teste
 
 function createDays(index){
    const day = document.createElement('div');
