@@ -10,8 +10,6 @@ let configurations;
 let count = 7;
 let data = [];
 
-// teste
-
 function createDays(index){
    const day = document.createElement('div');
    day.classList.add('containerDay')
@@ -26,22 +24,25 @@ function createDays(index){
       OpenMenu()
    }
    
-   
    day.append(i)
    containerVagas.appendChild(day)
 }
 
 (changeInput =()=>{
    configurations = {
-      vagaPorDia: parseInt(inputsConfig[0].value) ,
+      vagaPorDia: parseInt(inputsConfig[0].value),
       periodo: parseInt(inputsConfig[1].value) 
    }
-   containerVagas.innerHTML = ''
-   for (let i = 1; i < configurations.periodo +1; i++) {
-      createDays(i)
-   }
-})()
 
+   if (configurations.periodo === 7) {
+      for (let i = 1; i < configurations.periodo +1; i++) {
+         createDays(i);
+      }
+   } else {
+      createDays(configurations.periodo);
+   }
+
+})()
 
 const OpenMenu =() => {
    menuAddVaga.classList.add('active')
@@ -108,11 +109,3 @@ function createTables(day){
    table.innerHTML = tableTemplate;
    day.appendChild(table)
 }
-
-
-
-   
-
-
-
-

@@ -18,7 +18,7 @@
          <div class="box">
             <label for="inputVagaDia">Vagas a se candidatar por dia: </label>
             <input 
-               id="inputVagaDia" 
+               id="inputVagaDia"
                value="3" 
                onchange="changeInput()" 
                type="number" 
@@ -42,40 +42,41 @@
       <div class="containerVagas">
          
       </div>
-   </main>
-   <div class="menu-lateral">
-      <div class="title">
-         <h1>Dia 1</h1>
-         <i onclick="closeMenu()" class="fa-solid fa-xmark fa-2x"></i>
+      
+      <div class="menu-lateral">
+         <div class="title">
+            <h1>Dia 1</h1>
+            <i onclick="closeMenu()" class="fa-solid fa-xmark fa-2x"></i>
+         </div>
+         <form class="formVaga">
+            <label for="vaga">Vaga: </label>
+            <input 
+               type="text" 
+               id="vaga" 
+               placeholder="Estagio TI"
+            >
+            <label for="empresa">Empresa: </label>
+            <input 
+               type="text" 
+               id="empresa" 
+               placeholder="Google"
+            >
+            <label for="plataforma">Plataforma: </label>
+            <input 
+               type="text" 
+               id="plataforma" 
+               placeholder="Linkedin"
+            >
+            <label for="inputEntrevista">Entrevista: </label>
+            <input 
+               type="text" 
+               id="entrevista" 
+               placeholder="24/03/2023"
+            >
+            <button class="btnAddVaga">Adicionar vaga</button>
+         </form>
       </div>
-      <form class="formVaga">
-         <label for="vaga">Vaga: </label>
-         <input 
-            type="text" 
-            id="vaga" 
-            placeholder="Estagio TI"
-         >
-         <label for="empresa">Empresa: </label>
-         <input 
-            type="text" 
-            id="empresa" 
-            placeholder="Google"
-         >
-         <label for="plataforma">Plataforma: </label>
-         <input 
-            type="text" 
-            id="plataforma" 
-            placeholder="Linkedin"
-         >
-         <label for="inputEntrevista">Entrevista: </label>
-         <input 
-            type="text" 
-            id="entrevista" 
-            placeholder="24/03/2023"
-         >
-         <button class="btnAddVaga">Adicionar vaga</button>
-      </form>
-   </div>
+   </main>
    <footer>
       
    </footer>
