@@ -34,15 +34,17 @@ function createDays(index){
       periodo: parseInt(inputsConfig[1].value) 
    }
 
-   if (configurations.periodo === 7) {
+
+   if(configurations.periodo === 7){
       for (let i = 1; i < configurations.periodo +1; i++) {
-         createDays(i);
+         createDays(i)
       }
-   } else {
-      createDays(configurations.periodo);
+   } else{
+      createDays(configurations.periodo)
    }
 
 })()
+
 
 const OpenMenu =() => {
    menuAddVaga.classList.add('active')
@@ -67,7 +69,6 @@ const getInputVaga = () =>{
    for (let i = 0; i < inputsDadoVaga.length; i++) {
       console.log(inputsDadoVaga[i].value)
       console.log(inputsDadoVaga[i].id)
-   
    }
 }
 
