@@ -28,6 +28,7 @@ function createDays(index){
    containerVagas.appendChild(day)
 }
 
+
 const OpenMenu =() => {
    menuAddVaga.classList.add('active')
    const elementPai = btnAddVaga.parentNode.parentNode
@@ -82,7 +83,7 @@ btnAddVaga.addEventListener('click', (e) =>{
 })
 
 
-function createTables(day){
+function createTables(day) {
    const vagas = day.querySelectorAll('table');
       
    if(vagas.length === configurations.vagaPorDia){
