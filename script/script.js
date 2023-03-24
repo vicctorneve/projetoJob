@@ -28,24 +28,6 @@ function createDays(index){
    containerVagas.appendChild(day)
 }
 
-(changeInput =()=>{
-   configurations = {
-      vagaPorDia: parseInt(inputsConfig[0].value),
-      periodo: parseInt(inputsConfig[1].value) 
-   }
-
-
-   if(configurations.periodo === 7){
-      for (let i = 1; i < configurations.periodo +1; i++) {
-         createDays(i)
-      }
-   } else{
-      createDays(configurations.periodo)
-   }
-
-})()
-
-
 const OpenMenu =() => {
    menuAddVaga.classList.add('active')
    const elementPai = btnAddVaga.parentNode.parentNode
@@ -65,12 +47,33 @@ const closeMenu =() => menuAddVaga.classList.remove('active')
 //    createTables(day)
 // }
 
-const getInputVaga = () =>{
-   for (let i = 0; i < inputsDadoVaga.length; i++) {
-      console.log(inputsDadoVaga[i].value)
-      console.log(inputsDadoVaga[i].id)
+const getInputVaga = () => {
+   configurations = {
+      vagaPorDia: parseInt(inputsConfig[0].value),
+      periodo: parseInt(inputsConfig[1].value)
    }
 }
+
+const handleDays = () => {
+   if(configurations.periodo === 7) {
+      for (let i = 1; i < configurations.periodo +1; i++) {
+         createDays(i)
+      }
+   } else {
+      createDays(configurations.periodo)
+   }
+}
+
+window.onload = () => {
+   getInputVaga()
+   handleDays()
+}
+
+inputsConfig.forEach(e => {
+   e.addEventListener("change", getInputVaga);
+})
+
+inputsConfig[1].addEventListener("change", handleDays);
 
 btnAddVaga.addEventListener('click', (e) =>{
    e.preventDefault();
