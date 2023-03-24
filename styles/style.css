@@ -1,0 +1,146 @@
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root{
+   --main-color: gold;
+}
+
+header{
+   background-color: var(--main-color);
+}
+
+.menu-content{
+   min-height: 7vh;
+   text-align: center;
+   padding: 10px;
+   max-width: 1200px;
+   margin: auto;
+}
+
+
+main{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   min-height: 90vh;
+   width: 100%;
+   padding: 10px;
+}
+
+.menu-lateral{
+   position: absolute;
+   top: 7vh;
+   right: 0;
+   width: 0;
+   height: 93vh;
+   background-color: rgba(61, 61, 61, 0.719);
+   color: white;
+   transition: .5s;
+}
+
+.active{
+   padding: 20px;
+   visibility: visible;
+   width: 50%;
+}
+
+.formVaga{
+   color: black;
+   margin: 20px 0;
+   display: flex;
+   gap: 10px;
+   flex-direction: column;
+   background-color: var(--main-color);
+   padding: 20px;
+}
+
+.menu-lateral .title{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.menu-lateral .title i {
+   cursor: pointer;
+}
+
+
+
+.formVaga input{
+   padding: 10px;
+}
+
+.formVaga .btnAddVaga{
+   cursor: pointer;
+   padding: 10px;
+   margin: 20px 0;
+}
+
+div.config{
+   display: flex;
+   gap: 20px;
+   padding: 10px 0;
+}
+
+div.config input{
+   width: 35px;
+   height: 35px;
+}
+
+.box{
+   border-radius: 10px;
+   background-color: gray;
+   width: max-content;
+   padding: 10px;
+   font-weight: bold;
+}
+
+.containerVagas{
+   width: 100%;
+   margin: 20px auto;
+   padding: 20px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 20PX;
+}
+.containerDay{
+   padding: 10px;
+   min-width: 200px;
+   min-height: 40vh;
+   display: flex;
+   gap: 20px;
+   flex-direction: column;
+   align-items: center;
+}
+.containerDay h2{
+   border-radius: 10px;
+   margin: 10px;
+   background-color: var(--main-color);
+   width: 100%;
+   text-align: center;
+   padding: 10px;
+}
+
+.containerDay i{
+   cursor: pointer;
+   margin: 10px;
+}
+
+table{
+   cursor: pointer;
+   height: max-content;
+   background-color: gray;
+}
+
+table th, td{
+   padding: 10px;
+}
+
+
+
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles/style.css">
+   <title>Vagas</title>
+</head>
+<body>
+   <header>
+      <div class="menu-content">
+         <h1>Vagas</h1>
+      </div>
+   </header>
+   <main>
+      <div class="config">
+         <div class="box">
+            <label for="inputVagaDia">Vagas a se candidatar por dia: </label>
+            <input 
+               id="inputVagaDia" 
+               value="3" 
+               onchange="changeInput()" 
+               type="number" 
+               name="vagasPorDia" 
+               max="10" min="0"  
+            >
+         </div>
+         <div class="box">
+            <label for="inputPeriodo">Período de analise: </label>
+            <input 
+               value="7" 
+               type="number" 
+               name="peridodo" 
+               max="30" min="7"  
+               id="inputPeriodo"
+               onchange="changeInput()" 
+            >
+         </div>
+      </div>
+      
+      <div class="containerVagas">
+         
+      </div>
+   </main>
+   <div class="menu-lateral">
+      <div class="title">
+         <h1>Dia 1</h1>
+         <i onclick="closeMenu()" class="fa-solid fa-xmark fa-2x"></i>
+      </div>
+      <form class="formVaga">
+         <label for="vaga">Vaga: </label>
+         <input 
+            type="text" 
+            id="vaga" 
+            placeholder="Estagio TI"
+         >
+         <label for="empresa">Empresa: </label>
+         <input 
+            type="text" 
+            id="empresa" 
+            placeholder="Google"
+         >
+         <label for="plataforma">Plataforma: </label>
+         <input 
+            type="text" 
+            id="plataforma" 
+            placeholder="Linkedin"
+         >
+         <label for="inputEntrevista">Entrevista: </label>
+         <input 
+            type="text" 
+            id="entrevista" 
+            placeholder="24/03/2023"
+         >
+         <button class="btnAddVaga">Adicionar vaga</button>
+      </form>
+   </div>
+   <footer>
+      
+   </footer>
+   <script src="script/script.js"></script>
+
+   <!-- Font awesome -->
+   <script src="https://kit.fontawesome.com/e9abef019e.js" crossorigin="anonymous"></script>
+</body>
+</html>
