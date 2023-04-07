@@ -6,6 +6,7 @@
 
 body{
    overflow-x: hidden;
+   background-color: aliceblue;
 }
 
 :root{
@@ -20,7 +21,7 @@ header{
    min-height: 7vh;
    text-align: center;
    padding: 10px;
-   max-width: 1200px;
+   max-width: 1400px;
    margin: auto;
 }
 
@@ -28,8 +29,9 @@ header{
 main{
    display: flex;
    flex-direction: column;
-   justify-content: center;
    min-height: 90vh;
+   max-width: 1400px;
+   margin: 20px auto;
    width: 100%;
    padding: 10px;
 }
@@ -104,45 +106,55 @@ div.config input{
 }
 
 .containerVagas{
+   border-radius: 5px;
    width: 100%;
    margin: 20px auto;
-   padding: 20px;
    display: flex;
-   flex-wrap: wrap;
-   justify-content: center;
+   flex-direction: column;
    gap: 20PX;
+   box-shadow: 0px 0px 7px 0px #00000023;
 }
 .containerDay{
-   padding: 10px;
-   min-width: 200px;
-   min-height: 40vh;
+   
+   position: relative;
+   border-radius: 5px;
+   min-width: 350px;
    display: flex;
    gap: 20px;
    flex-direction: column;
-   align-items: center;
 }
-.containerDay h2{
-   border-radius: 10px;
-   margin: 10px;
-   background-color: var(--main-color);
+.containerDay h1{
+   cursor: pointer;
+   border-bottom: 3px solid rgb(0, 183, 255);
+   background-color: white;
    width: 100%;
-   text-align: center;
    padding: 10px;
 }
+.containerDay .content{
+   display: none;
+   flex-direction: column;
+   gap: 10px;
+   align-items: center;
+   transition: .3s;
+}
 
+.containerDay .content.show{
+   display: flex;
+   height: auto;
+}
 .containerDay i{
    cursor: pointer;
    margin: 10px;
 }
 
-table{
-   cursor: pointer;
-   height: max-content;
-   background-color: gray;
+.containerDay .vaga{
+   width: 80%;
+   padding: 20px;
+   background-color: antiquewhite;
 }
 
-table th, td{
-   padding: 10px;
+.containerDay .vaga h2{
+   color: rgb(0, 183, 255);
 }
 
 

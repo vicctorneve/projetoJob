@@ -1,116 +1,201 @@
-const inputsConfig = document.querySelectorAll(".box input");
 const containerVagas = document.querySelector(".containerVagas");
 const menuAddVaga = document.querySelector('.menu-lateral');
-const btnAddVaga = menuAddVaga.querySelector('.btnAddVaga');
 const inputsDadoVaga = menuAddVaga.querySelectorAll('.formVaga input');
+const btnAddVaga = menuAddVaga.querySelector('.btnAddVaga');
 
+let data = [[], [], [], [], [], [], []];
 let element;
-let configurations;
 
-let count = 7;
-let data = [];
-
-function createDays(index){
-   const day = document.createElement('div');
-   day.classList.add('containerDay')
+const getLocalstorage = () =>{
    
-   const h2 = document.createElement('h2');
-   h2.innerText = `Dia ${index}`;
-   day.append(h2);
-   const i = document.createElement('i');
-   i.setAttribute('class', 'fa-solid fa-plus fa-3x')
-   i.onclick = function(){
-      element = i.parentNode
-      OpenMenu()
+   const dadosString = localStorage.getItem("dadosVagas");
+   const dados = JSON.parse(dadosString);
+   if(dados !== null){
+      data = dados
    }
    
-   day.append(i)
-   containerVagas.appendChild(day)
+   return data;
 }
 
 
-const OpenMenu =() => {
-   menuAddVaga.classList.add('active')
-   const elementPai = btnAddVaga.parentNode.parentNode
-   const h2Day = element.querySelector('h2')
-   const h1 = elementPai.querySelector('h1')
-   h1.innerHTML = h2Day.textContent
+const setLocalstorage = (dados) =>{
+   const dadosString = JSON.stringify(dados)
+   localStorage.setItem("dadosVagas", dadosString)
+}
+
+const handleClick = (h1) =>{
+   const elementPai = h1.parentNode
+   const content = elementPai.querySelector('.content')
+   content.classList.toggle('show')
+}
+
+const createContainerVaga = (day) =>{
+
+   const dados = data[day][data[day].length -1]
+   
+
+   const templateVaga = `
+      <h2>${dados.empresa}</h2>
+      <p>${dados.vaga}</p>
+      <p>${dados.entrevista}</p>
+      <a href="">${dados.link}</a>
+   `
+
+   const div = document.createElement('div');
+   div.classList.add('vaga');
+   div.innerHTML = templateVaga;
+   const i = element.querySelector('i')
+   element.insertBefore(div, i)
+
+   if(data[day].length >= 3){
+      element.removeChild(i)
+      return;
+   } else{
+
+   }
+}
+
+const createDays = () =>{
+
+   data = getLocalstorage()
+
+   for (let index = 0; index < 8; index++) {
+      if(index !== 0){
+         const div = document.createElement('div')
+         div.classList.add('containerDay')
+      
+         const h1 = document.createElement('h1')
+         h1.onclick = () => handleClick(h1)
+         h1.innerText = `Dia ${index}`
+         
+         div.append(h1)
+         
+         const divContent = document.createElement('div')
+         divContent.classList.add('content');
+         
+         div.append(divContent)
+         
+
+         
+         for (let j = 0; j < data[index-1].length; j++) {
+            let dados = data[index-1][j]
+            const templateVaga = `
+               <h2>${dados.empresa}</h2>
+               <p>${dados.vaga}</p>
+               <p>${dados.entrevista}</p>
+               <a href="">${dados.link}</a>
+            `
+
+            const div = document.createElement('div');
+            div.classList.add('vaga');
+            div.innerHTML = templateVaga;
+            divContent.appendChild(div)
+            const i = divContent.querySelector('i')
+         }
+         
+         const i = document.createElement('i')
+         i.setAttribute('class', 'fa-solid fa-plus fa-3x')
+         i.onclick = () => openMenu(i)
+         
+         
+         divContent.append(i)
+         if(data[index-1].length >= 3){
+            i.remove()
+         } 
+
+         
+         containerVagas.append(div)
+      }      
+   }
+
+   
+}
+
+createDays()
+
+
+
+console.log(data)
+
+function openMenu(i) {
+   
+   element = i.parentNode
+
+   elementPai = element.parentNode
+
+   const h1Day = elementPai.querySelector('h1')
+
+   const h1Menu = menuAddVaga.querySelector('.title h1')
+   h1Menu.innerHTML = h1Day.innerText
+   
+   
+   menuAddVaga.classList.add('active');
+   
 }
 
 const closeMenu =() => menuAddVaga.classList.remove('active')
 
-// const addVagas = day =>{
-//    const vagas = day.querySelectorAll('table');
-      
-//    if(vagas.length === configurations.vagaPorDia){
-//       return;
-//    }
-//    createTables(day)
-// }
-
-const getInputVaga = () => {
-   configurations = {
-      vagaPorDia: parseInt(inputsConfig[0].value),
-      periodo: parseInt(inputsConfig[1].value)
-   }
-}
-
-const handleDays = () => {
-   if(configurations.periodo === 7) {
-      for (let i = 1; i < configurations.periodo +1; i++) {
-         createDays(i)
+const isValid = () =>{
+   let valid = false;
+   inputsDadoVaga.forEach(input => {
+      // Colocar exceção no input entrevista - erro
+      if(input.value !== ''){
+         valid = true
+         if(input.id === 'entrevista' && input.value !== ''){
+            valid = true;
+         }
+      } else{
+         valid = false
       }
-   } else {
-      createDays(configurations.periodo)
+      
+
+   });
+   return valid;
+}
+
+const getDay = () =>{
+   let title = menuAddVaga.querySelector('h1').textContent;
+
+   const match = title.match(/\d+/);
+   let numberDay;
+   if (match) {
+      numberDay = parseInt(match[0]);
    }
+   return numberDay -1
 }
 
-window.onload = () => {
-   getInputVaga()
-   handleDays()
+
+const addVagas = ()=>{
+   if(!isValid()) return;
+   let day = getDay()
+   let vaga = {};
+   
+   inputsDadoVaga.forEach(input => {
+      vaga[input.id] =input.value;
+   });
+
+   data = getLocalstorage()
+   
+   if(data[day].length >= 3) return;
+   
+   
+   data[day].push(vaga)
+   setLocalstorage(data)
+   createContainerVaga(day)
 }
 
-inputsConfig.forEach(e => {
-   e.addEventListener("change", getInputVaga);
-})
 
-inputsConfig[1].addEventListener("change", handleDays);
 
 btnAddVaga.addEventListener('click', (e) =>{
    e.preventDefault();
-   getInputVaga();
-   createTables(element);
+   addVagas()
 })
 
 
-function createTables(day) {
-   const vagas = day.querySelectorAll('table');
-      
-   if(vagas.length === configurations.vagaPorDia){
-      return;
-   }
-   const table = document.createElement('table');
 
-   const tableTemplate = `
-   <thead>
-      <tr>
-         <th>Vaga</th>
-         <th>Empresa</th>
-         <th>Feedback</th>
-         <th>Entrevista</th>
-      </tr>
-   </thead>
-   <tbody>
-      <tr>
-         <td>Estagio</td>
-         <td>Amazon</td>
-         <td>Positivo</td>
-         <td>01/04/2023</td>
-      </tr>
-   </tbody>
-   `;
 
-   // Adiciona a string de template à tabela
-   table.innerHTML = tableTemplate;
-   day.appendChild(table)
-}
+
+
+
+
+
