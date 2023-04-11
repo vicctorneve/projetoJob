@@ -7,34 +7,52 @@
 body{
    overflow-x: hidden;
    background-color: aliceblue;
+   color: black;
+   transition: 0.5s;
 }
+
+body.themeDark{
+   background-color: rgb(17, 17, 17);
+   color: white;
+} 
 
 :root{
    --main-color: gold;
 }
 
 header{
-   background-color: var(--main-color);
+   border-bottom: 1px solid rgba(0, 0, 0, 0.137);
+}
+header h1{
+   color: rgb(0, 183, 255);
 }
 
 .menu-content{
-   min-height: 7vh;
-   text-align: center;
+   display: flex;
+   align-items: center;
+   height: 7vh;
+   justify-content: space-between;
    padding: 10px;
    max-width: 1400px;
    margin: auto;
 }
 
+.menu-content i{
+   font-size: 20px;
+   cursor: pointer;
+}
 
 main{
+   overflow: hidden;
    display: flex;
    flex-direction: column;
    min-height: 90vh;
    max-width: 1400px;
    margin: 20px auto;
    width: 100%;
-   padding: 10px;
+   padding: 20px;
 }
+
 
 .menu-lateral{
    transition: .5s;
@@ -75,7 +93,6 @@ main{
 }
 
 
-
 .formVaga input{
    padding: 10px;
 }
@@ -88,8 +105,15 @@ main{
 
 div.config{
    display: flex;
+   align-items: center;
    gap: 20px;
+   justify-content: space-between;
    padding: 10px 0;
+}
+
+.containerInputs{
+   display: flex;
+   gap: 10px;
 }
 
 div.config input{
@@ -97,7 +121,7 @@ div.config input{
    height: 35px;
 }
 
-.box{
+.box{ 
    border-radius: 10px;
    background-color: gray;
    width: max-content;
@@ -105,57 +129,98 @@ div.config input{
    font-weight: bold;
 }
 
+.btnClearAll{
+   cursor: pointer;
+   width: 100px;
+   padding: 10px;
+   background-color: #00B7FF;
+   border: none;
+   border-radius: 5px;
+   color: white;
+}
+
 .containerVagas{
+   overflow: auto;
+   height: 600px;
    border-radius: 5px;
    width: 100%;
+   min-height: 500px;
    margin: 20px auto;
    display: flex;
-   flex-direction: column;
    gap: 20PX;
    box-shadow: 0px 0px 7px 0px #00000023;
 }
 .containerDay{
-   
    position: relative;
    border-radius: 5px;
-   min-width: 350px;
+   min-width: 400px;
+   width: 100%;
    display: flex;
+   align-items: center;
    gap: 20px;
    flex-direction: column;
 }
+
 .containerDay h1{
    cursor: pointer;
    border-bottom: 3px solid rgb(0, 183, 255);
-   background-color: white;
+   /* background-color: white; */
    width: 100%;
    padding: 10px;
 }
 .containerDay .content{
-   display: none;
+   display: flex;
    flex-direction: column;
+   align-items: center;
+   width: 100%;
+   padding: 20px 10px;
    gap: 10px;
    align-items: center;
    transition: .3s;
 }
 
-.containerDay .content.show{
+.containerDay .content.show{  
    display: flex;
-   height: auto;
 }
+
 .containerDay i{
    cursor: pointer;
    margin: 10px;
 }
 
 .containerDay .vaga{
-   width: 80%;
+   height: 150px;
+   display: flex ;
+   justify-content: space-between;
+   border-bottom: 1px solid black;
+   width: 100%;
    padding: 20px;
-   background-color: antiquewhite;
+}
+
+.containerInfos{
+   display: flex;
+   gap: 5px;
+   flex-wrap: wrap;
+   width: 70%;
+   flex-direction: column; 
+}
+
+.containerInfos a{
+   display: block;
+   color: inherit;
+   word-break: break-all;
+}
+
+
+.containerActions{
+   width: 30%;
 }
 
 .containerDay .vaga h2{
    color: rgb(0, 183, 255);
 }
+
+
 
 
 

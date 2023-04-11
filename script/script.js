@@ -1,132 +1,157 @@
+
 const containerVagas = document.querySelector(".containerVagas");
 const menuAddVaga = document.querySelector('.menu-lateral');
 const inputsDadoVaga = menuAddVaga.querySelectorAll('.formVaga input');
 const btnAddVaga = menuAddVaga.querySelector('.btnAddVaga');
+const inputsConfig = document.querySelectorAll('.config input')
+
 
 let data = [[], [], [], [], [], [], []];
-let element;
 
-const getLocalstorage = () =>{
-   
-   const dadosString = localStorage.getItem("dadosVagas");
-   const dados = JSON.parse(dadosString);
-   if(dados !== null){
-      data = dados
-   }
-   
-   return data;
+let contentVagas;
+
+let configutations ={
+   periodo: 7,
+   vagasPorDias: 3
+}
+
+const getLocalstorage = (key) =>{
+   const dadosString = localStorage.getItem(key);
+   const dados = JSON.parse(dadosString)
+   return dados;
 }
 
 
-const setLocalstorage = (dados) =>{
+const setLocalstorage = (key, dados) =>{
    const dadosString = JSON.stringify(dados)
-   localStorage.setItem("dadosVagas", dadosString)
+   localStorage.setItem(key, dadosString)
 }
 
-const handleClick = (h1) =>{
-   const elementPai = h1.parentNode
-   const content = elementPai.querySelector('.content')
-   content.classList.toggle('show')
-}
 
-const createContainerVaga = (day) =>{
+const handleChange = () =>{
+   configutations.periodo =inputsConfig[0].value
+   configutations.vagasPorDias =inputsConfig[1].value
 
-   const dados = data[day][data[day].length -1]
    
+   let increasesOrDecreasesDay = parseInt(configutations.periodo) - data.length
+   if(increasesOrDecreasesDay > 0){
 
-   const templateVaga = `
-      <h2>${dados.empresa}</h2>
-      <p>${dados.vaga}</p>
-      <p>${dados.entrevista}</p>
-      <a href="">${dados.link}</a>
-   `
-
-   const div = document.createElement('div');
-   div.classList.add('vaga');
-   div.innerHTML = templateVaga;
-   const i = element.querySelector('i')
-   element.insertBefore(div, i)
-
-   if(data[day].length >= 3){
-      element.removeChild(i)
-      return;
-   } else{
-
+      for (let i = 0; i < increasesOrDecreasesDay; i++) {
+         data.push([])
+      }
+   } else if (increasesOrDecreasesDay < 0) {
+      for (let i = 0; i < Math.abs(increasesOrDecreasesDay); i++) {
+        let dayRemoved = data.pop();
+        if(dayRemoved.length > 0){
+         prompt('Tem certeza que deseja diminuir o periodo de analise, o ultimo dia contem vagas adicionada')
+        }
+      }
    }
+
+   setLocalstorage("dadosVagas", data)
+   setLocalstorage('configurations', configutations)
+   createDays()
+}
+
+const handleClick = (elementClicked) =>{
+   const parentElement  = elementClicked.parentNode
+   contentVagas = parentElement.querySelector('.content')
+   contentVagas.classList.toggle('show')
 }
 
 const createDays = () =>{
+   containerVagas.innerHTML = ''
+   if(getLocalstorage("dadosVagas") !== null){
+      
+      data = getLocalstorage("dadosVagas")
+   }
 
-   data = getLocalstorage()
+   if(getLocalstorage("configurations") !== null){
+      
+      configutations = getLocalstorage('configurations')
+      inputsConfig[0].value = configutations.periodo 
+      inputsConfig[1].value = configutations.vagasPorDias
+   }
+   
 
-   for (let index = 0; index < 8; index++) {
-      if(index !== 0){
-         const div = document.createElement('div')
-         div.classList.add('containerDay')
+   for (let dayNumber = 0; dayNumber < parseInt(configutations.periodo)+1; dayNumber++) {
+      // Para não criar container dia 0
+      if(dayNumber !== 0){
+         const containerDay = document.createElement('div')
+         containerDay.classList.add('containerDay')
       
          const h1 = document.createElement('h1')
          h1.onclick = () => handleClick(h1)
-         h1.innerText = `Dia ${index}`
+         h1.innerText = `Dia ${dayNumber}`
          
-         div.append(h1)
+         containerDay.append(h1)
          
-         const divContent = document.createElement('div')
-         divContent.classList.add('content');
+         const content = document.createElement('div')
+         content.classList.add('content');
          
-         div.append(divContent)
+         containerDay.append(content)
          
-
-         
-         for (let j = 0; j < data[index-1].length; j++) {
-            let dados = data[index-1][j]
+         for (let vaga = 0; vaga < data[dayNumber-1].length; vaga++) {
+            if(vaga === parseInt(configutations.vagasPorDias)){
+               break;
+            }
+            let dadosVagas = data[dayNumber-1][vaga]
             const templateVaga = `
-               <h2>${dados.empresa}</h2>
-               <p>${dados.vaga}</p>
-               <p>${dados.entrevista}</p>
-               <a href="">${dados.link}</a>
+               <h2>${dadosVagas.empresa}</h2>
+               <p>${dadosVagas.vaga}</p>
+               <p>${dadosVagas.entrevista}</p>
+               <a href=${dadosVagas.link} target="_blank">Clique aqui para acessa a vaga</a>
             `
 
-            const div = document.createElement('div');
-            div.classList.add('vaga');
-            div.innerHTML = templateVaga;
-            divContent.appendChild(div)
-            const i = divContent.querySelector('i')
-         }
-         
-         const i = document.createElement('i')
-         i.setAttribute('class', 'fa-solid fa-plus fa-3x')
-         i.onclick = () => openMenu(i)
-         
-         
-         divContent.append(i)
-         if(data[index-1].length >= 3){
-            i.remove()
-         } 
+            const templateDiv = `
+               <div class="containerInfos">
+                  ${templateVaga}
+               </div>
+               <div class="containerActions">
+                  <i class="fa-sharp fa-solid fa-trash delete" onClick="deleteVaga(this)"></i>
+                  <i class="fa-solid fa-pen-to-square edit" onClick="updateVaga(this)"></i>
+               </div>
+            `
+            const containerActions = document.createElement('div')
+            const containerInfos = document.createElement('div')
+            containerActions.classList.add('containerActions')
+            containerInfos.classList.add('containerInfos')
 
+            const containerVaga = document.createElement('div');
+
+            containerVaga.classList.add('vaga');
+            containerVaga.innerHTML = templateDiv;
+            content.appendChild(containerVaga)
+         }
+         const btnAddVaga = document.createElement('i')
          
-         containerVagas.append(div)
+         btnAddVaga.setAttribute('class', 'fa-solid fa-plus fa-3x btnAddVaga')
+         btnAddVaga.onclick = () => openMenu(btnAddVaga)
+         
+         
+         content.append(btnAddVaga)
+         if(data[dayNumber-1].length >= configutations.vagasPorDias){
+            btnAddVaga.remove()
+         } 
+         containerVagas.append(containerDay)
       }      
    }
-
-   
 }
 
 createDays()
 
-
-
 console.log(data)
 
-function openMenu(i) {
+function openMenu(btnAddVaga) {
    
-   element = i.parentNode
+   contentVagas = btnAddVaga.parentNode;
 
-   elementPai = element.parentNode
+   parentElement = contentVagas.parentNode;
 
-   const h1Day = elementPai.querySelector('h1')
+   const h1Day = parentElement.querySelector('h1');
 
-   const h1Menu = menuAddVaga.querySelector('.title h1')
-   h1Menu.innerHTML = h1Day.innerText
+   const h1Menu = menuAddVaga.querySelector('.title h1');
+   h1Menu.innerHTML = h1Day.innerText;
    
    
    menuAddVaga.classList.add('active');
@@ -157,45 +182,88 @@ const getDay = () =>{
    let title = menuAddVaga.querySelector('h1').textContent;
 
    const match = title.match(/\d+/);
-   let numberDay;
+   let dayNumber;
    if (match) {
-      numberDay = parseInt(match[0]);
+      dayNumber = parseInt(match[0]);
    }
-   return numberDay -1
+   return dayNumber-1
 }
 
 
 const addVagas = ()=>{
    if(!isValid()) return;
-   let day = getDay()
+   let dayNumber = getDay()
    let vaga = {};
    
    inputsDadoVaga.forEach(input => {
       vaga[input.id] =input.value;
    });
 
-   data = getLocalstorage()
    
-   if(data[day].length >= 3) return;
+   if(data[dayNumber].length >= configutations.vagasPorDias) return;
    
-   
-   data[day].push(vaga)
-   setLocalstorage(data)
-   createContainerVaga(day)
+   data[dayNumber].push(vaga)
+   setLocalstorage("dadosVagas",data)
+   createContainerVaga(dayNumber)
 }
 
+const deleteVaga = (elementClicked)=>{
+   const elementParent = elementClicked.parentElement.parentElement
+   elementParent.remove()
+}
 
+const updateVaga = () =>{
+   console.log('Atualizando vaga')
+}
+
+const createContainerVaga = (dayNumber) =>{
+
+   let numberVaga = data[dayNumber].length -1
+   const dados = data[dayNumber][numberVaga]
+
+   const templateVaga = `
+      <h2>${dados.empresa}</h2>
+      <p>${dados.vaga}</p>
+      <p>${dados.entrevista}</p>
+      <a href=${dados.link} target="_blank">Clique aqui para acessa a vaga</a>
+   `
+
+   const templateDiv = `
+      <div class="containerInfos">
+         ${templateVaga}
+      </div>
+      <div class="containerActions">
+         <i class="fa-sharp fa-solid fa-trash delete" onClick="deleteVaga()"></i>
+         <i class="fa-solid fa-pen-to-square edit" onClick="updateVaga()"></i>
+      </div>
+   `
+
+   const containerVaga = document.createElement('div');
+   containerVaga.classList.add('vaga');
+   
+   containerVaga.innerHTML = templateDiv;
+
+   const i = contentVagas.querySelector('i.btnAddVaga')
+   contentVagas.insertBefore(containerVaga, i)
+   
+
+   //se no dia 'dayNumber' ex: tiver mais de 3 vagas, remove o botão de adicionar
+   if(data[dayNumber].length >= configutations.vagasPorDias){
+      contentVagas.removeChild(i)
+      return;
+   } 
+}
 
 btnAddVaga.addEventListener('click', (e) =>{
    e.preventDefault();
    addVagas()
 })
 
-
-
-
-
-
-
-
-
+const clearAll =() =>{
+   for (let day = 0; day < data.length; day++) {
+      data[day].length = 0
+   }
+   setLocalstorage("dadosVagas",data)
+   containerVagas.innerHTML = ''
+   createDays()
+}

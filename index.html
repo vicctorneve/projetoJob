@@ -5,46 +5,53 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="styles/style.css">
-   <title>Vagas</title>
+   <title>Smart candidacy</title>
 </head>
-<body>
+<body class="">
    <header>
       <div class="menu-content">
-         <h1>Vagas</h1>
+         <h1>Smart candidacy</h1>
+         <i class="fa-solid fa-moon" onclick="alteraTema()"></i>
+         
       </div>
    </header>
-   <main>
+   <script src="script/scriptTheme.js"></script>
+   <main class="content">
       <div class="config">
-         <div class="box">
-            <label for="inputVagaDia">Vagas a se candidatar por dia: </label>
-            <input 
-               id="inputVagaDia"
-               value="3" 
-               onchange="changeInput()" 
-               type="number" 
-               name="vagasPorDia" 
-               max="10" min="0"  
-            >
+         <div class="containerInputs">
+            <div class="box">
+               <label for="inputPeriodo">Período de analise: </label>
+               <input 
+                  value="7" 
+                  type="number" 
+                  name="periodo" 
+                  max="30" min="7"  
+                  id="inputPeriodo"
+                  onchange="handleChange()" 
+               >
+            </div>
+            <div class="box">
+               <label for="inputVagaDia">Vagas a se candidatar por dia: </label>
+               <input 
+                  id="inputVagaDia"
+                  value="3" 
+                  onchange="handleChange()" 
+                  type="number" 
+                  name="vagasPorDia" 
+                  max="10" min="3"  
+               >
+            </div>
          </div>
-         <div class="box">
-            <label for="inputPeriodo">Período de analise: </label>
-            <input 
-               value="7" 
-               type="number" 
-               name="peridodo" 
-               max="30" min="7"  
-               id="inputPeriodo"
-               onchange="changeInput()" 
-            >
-         </div>
+         <button class="btnClearAll" onclick="clearAll()">Limpar tudo</button>
       </div>
+      <!-- <script  src="script/scriptClear.js"></script> -->
       
       <div class="containerVagas">
 
-        
-         
          
       </div>
+
+      
       
       <div class="menu-lateral">
          <div class="title">
@@ -85,10 +92,12 @@
       </div>
    </main>
    <footer>
-      
+      <div class="content">
+         <p>oi</p>
+      </div>
    </footer>
    <script src="script/script.js"></script>
-
+ 
    <!-- Font awesome -->
    <script src="https://kit.fontawesome.com/e9abef019e.js" crossorigin="anonymous"></script>
 </body>
