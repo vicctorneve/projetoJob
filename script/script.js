@@ -21,17 +21,49 @@ const getLocalstorage = (key) =>{
    return dados;
 }
 
-
 const setLocalstorage = (key, dados) =>{
    const dadosString = JSON.stringify(dados)
    localStorage.setItem(key, dadosString)
+}
+
+const saveData = () =>{
+   console.log('salvando dados')
+   let dataVacancy = []
+   data = []
+   for (let i = 0; i < parseInt(configutations.periodo); i++) {
+      data.push([])
+      
+   }
+   const containerDays = document.querySelectorAll('.containerDay')
+   containerDays.forEach((containerDay, index) => {
+      const content = containerDay.querySelector('.content')
+      const containerVagas = content.querySelectorAll('.vaga')
+
+      containerVagas.forEach(containerVaga => {
+         const empresa = containerVaga.querySelector('P.companyName').innerHTML
+         const entrevista = containerVaga.querySelector('p.jobInterview').innerHTML
+         const link = containerVaga.querySelector('a.jobVacancyLink').href
+         const vaga = containerVaga.querySelector('h2.vacancyJob').innerHTML
+      
+         const jobVacancyData = {
+
+            empresa: empresa,
+            entrevista: entrevista,
+            link: link,
+            vaga: vaga
+         }
+         data[index].push(jobVacancyData)
+      });
+      
+   });
+   setLocalstorage('dadosVagas', data)
+   console.log(data)
 }
 
 
 const handleChange = () =>{
    configutations.periodo =inputsConfig[0].value
    configutations.vagasPorDias =inputsConfig[1].value
-
    
    let increasesOrDecreasesDay = parseInt(configutations.periodo) - data.length
    if(increasesOrDecreasesDay > 0){
@@ -97,10 +129,10 @@ const createDays = () =>{
             }
             let dadosVagas = data[dayNumber-1][vaga]
             const templateVaga = `
-               <h2>${dadosVagas.empresa}</h2>
-               <p>${dadosVagas.vaga}</p>
-               <p>${dadosVagas.entrevista}</p>
-               <a href=${dadosVagas.link} target="_blank">Clique aqui para acessa a vaga</a>
+               <h2 class="vacancyJob">${dadosVagas.vaga}</h2>
+               <p class="companyName">${dadosVagas.empresa}</p>
+               <p class="jobInterview">${dadosVagas.entrevista}</p>
+               <a class="jobVacancyLink" href=${dadosVagas.link} target="_blank">Clique aqui para acessa a vaga</a>
             `
 
             const templateDiv = `
@@ -180,7 +212,6 @@ const isValid = () =>{
 
 const getDay = () =>{
    let title = menuAddVaga.querySelector('h1').textContent;
-
    const match = title.match(/\d+/);
    let dayNumber;
    if (match) {
@@ -203,13 +234,16 @@ const addVagas = ()=>{
    if(data[dayNumber].length >= configutations.vagasPorDias) return;
    
    data[dayNumber].push(vaga)
-   setLocalstorage("dadosVagas",data)
+   setLocalstorage('dadosVagas', data)
    createContainerVaga(dayNumber)
+   clearInputs()
+   closeMenu()
 }
 
 const deleteVaga = (elementClicked)=>{
-   const elementParent = elementClicked.parentElement.parentElement
-   elementParent.remove()
+   const containerVaga = elementClicked.parentElement.parentElement
+   containerVaga.remove()
+   saveData();
 }
 
 const updateVaga = () =>{
@@ -246,8 +280,6 @@ const createContainerVaga = (dayNumber) =>{
    const i = contentVagas.querySelector('i.btnAddVaga')
    contentVagas.insertBefore(containerVaga, i)
    
-
-   //se no dia 'dayNumber' ex: tiver mais de 3 vagas, remove o botão de adicionar
    if(data[dayNumber].length >= configutations.vagasPorDias){
       contentVagas.removeChild(i)
       return;
@@ -257,7 +289,14 @@ const createContainerVaga = (dayNumber) =>{
 btnAddVaga.addEventListener('click', (e) =>{
    e.preventDefault();
    addVagas()
+   
 })
+
+const clearInputs = () =>{
+   inputsDadoVaga.forEach(input => {
+      input.value = ''
+   });
+}
 
 const clearAll =() =>{
    for (let day = 0; day < data.length; day++) {
