@@ -51,11 +51,10 @@ main{
    margin: 20px auto;
    width: 100%;
    padding: 20px;
-}
-
+} 
 
 .menu-lateral{
-   transition: .5s;
+   transition: 1s;
    position: absolute;
    top: 7vh;
    right: 0;
@@ -64,12 +63,14 @@ main{
    background-color: rgba(61, 61, 61, 0.719);
    color: white;
    /* visibility: hidden; */
-}
+   max-width: 800px;
+} 
 
 .active{
+   min-width: 200px;
    padding: 20px;
    /* visibility: visible; */
-   width: 50%;
+   width: 100%;
 }
 
 .formVaga{
@@ -105,6 +106,7 @@ main{
 
 div.config{
    display: flex;
+   flex-wrap: wrap;
    align-items: center;
    gap: 20px;
    justify-content: space-between;
@@ -112,19 +114,24 @@ div.config{
 }
 
 .containerInputs{
+   max-width: 650px;
+   width: 100%;
    display: flex;
+   flex-wrap: wrap;
    gap: 10px;
 }
 
 div.config input{
-   width: 35px;
-   height: 35px;
+   text-align: center;
+   width: 40px;
+   height: 40px;
 }
 
 .box{ 
+   max-width: 300px;
+   width: 100%;
    border-radius: 10px;
-   background-color: gray;
-   width: max-content;
+   background-color: #00B7FF;
    padding: 10px;
    font-weight: bold;
 }
@@ -139,26 +146,41 @@ div.config input{
    color: white;
 }
 
+
 .containerVagas{
-   overflow: auto;
-   height: 600px;
+   overflow-x: hidden;
    border-radius: 5px;
    width: 100%;
-   min-height: 500px;
+   min-height: 600px;
    margin: 20px auto;
    display: flex;
    gap: 20PX;
    box-shadow: 0px 0px 7px 0px #00000023;
 }
 .containerDay{
-   position: relative;
+   min-width: 430px;
+   transition: 0.5s;
    border-radius: 5px;
-   min-width: 400px;
    width: 100%;
    display: flex;
    align-items: center;
    gap: 20px;
    flex-direction: column;
+}
+
+.containerDay.active{
+   
+}
+
+@media screen and (min-width: 768px) {
+   .containerVagas {
+     max-width: 1440px;
+     margin: 0 auto;
+   }
+   
+   .containerDay {
+     width: 50%;
+   }
 }
 
 .containerDay h1{
@@ -189,16 +211,19 @@ div.config input{
 }
 
 .containerDay .vaga{
-   height: 150px;
+   border: 2px solid darkorange;
+   height: 250px;
    display: flex ;
    justify-content: space-between;
-   border-bottom: 1px solid black;
    width: 100%;
    padding: 20px;
 }
 
+
+
 .containerInfos{
    display: flex;
+   justify-content: space-between;
    gap: 5px;
    flex-wrap: wrap;
    width: 70%;
